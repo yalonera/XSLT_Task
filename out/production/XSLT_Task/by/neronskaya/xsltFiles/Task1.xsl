@@ -2,7 +2,8 @@
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
     <xsl:output omit-xml-declaration="yes" indent="yes"/>
 
-    <xsl:template match="list/tourists" name="ParseLine">
+    <!--это решение делит информацию по символу /, но нет разбиения туристов на группы -->
+    <xsl:template match="list/tourists" name="touristInfo">
         <xsl:param name="touristInfo" select="."/>
         <xsl:if test="string-length($touristInfo)">
             <!--Выполняем переход на новую строку только в том случае, если строковое значение параметра
@@ -13,24 +14,10 @@
 
             <xsl:value-of select="translate(substring-before(concat($touristInfo,'/'),'/'),'|','')"/>
 
-            <xsl:call-template name="ParseLine">
+            <xsl:call-template name="touristInfo">
                 <!-- Повторный вызов touristInfo но для строки после символа "/"-->
                 <xsl:with-param name="touristInfo" select="substring-after($touristInfo, '/')"/>
             </xsl:call-template>
         </xsl:if>
-
     </xsl:template>
-
-    <xsl:template match="list/tourists" name="GroupInfo">
-        <touristGroup>
-            <xsl:call-template name="ParseLine"/>
-        </touristGroup>
-    </xsl:template>
-
-    <xsl:template match="list/tourists" name="TouristInfo">
-        <touristInfo>
-            <xsl:call-template name="GroupInfo"/>
-        </touristInfo>
-    </xsl:template>
-
 </xsl:stylesheet>

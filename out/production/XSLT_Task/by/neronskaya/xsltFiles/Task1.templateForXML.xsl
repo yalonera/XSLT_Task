@@ -18,7 +18,7 @@
                 <xsl:with-param name="touristInfo" select="substring-after($touristInfo, '/')"/>
             </xsl:call-template>
         </xsl:if>
-
+        
     </xsl:template>
 
     <xsl:template match="list/tourists" name="GroupInfo">
